@@ -1,0 +1,10 @@
+@if ($errors->any())<div class="errors"><ul style="margin:0; padding-left:18px;">@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
+<div class="field"><label for="name">License Name</label><input id="name" name="name" type="text" value="{{ old('name',$license->name ?? '') }}" required></div>
+<div class="field"><label for="license_key">License Key</label><input id="license_key" name="license_key" type="text" value="{{ old('license_key',$license->license_key ?? '') }}"></div>
+<div class="field"><label for="seats_total">Total Seats</label><input id="seats_total" name="seats_total" type="number" min="0" value="{{ old('seats_total',$license->seats_total ?? 0) }}" required></div>
+<div class="field"><label for="seats_used">Used Seats</label><input id="seats_used" name="seats_used" type="number" min="0" value="{{ old('seats_used',$license->seats_used ?? 0) }}" required></div>
+<div class="field"><label for="expires_at">Expires At</label><input id="expires_at" name="expires_at" type="date" value="{{ old('expires_at', isset($license) && $license->expires_at ? $license->expires_at->format('Y-m-d') : '') }}"></div>
+<div class="field"><label for="company_id">Company</label><select id="company_id" name="company_id"><option value="">Select company</option>@foreach($companies as $company)<option value="{{ $company->id }}" @selected((string) old('company_id',$license->company_id ?? '') === (string) $company->id)>{{ $company->name }}</option>@endforeach</select></div>
+<div class="field"><label for="supplier_id">Supplier</label><select id="supplier_id" name="supplier_id"><option value="">Select supplier</option>@foreach($suppliers as $supplier)<option value="{{ $supplier->id }}" @selected((string) old('supplier_id',$license->supplier_id ?? '') === (string) $supplier->id)>{{ $supplier->name }}</option>@endforeach</select></div>
+<div class="field"><label for="notes">Notes</label><textarea id="notes" name="notes" rows="4">{{ old('notes',$license->notes ?? '') }}</textarea></div>
+<div class="row"><button type="submit" class="btn primary">Save</button><a class="btn" href="{{ route('licenses.index') }}">Cancel</a></div>
