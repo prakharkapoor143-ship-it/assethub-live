@@ -11,6 +11,11 @@ export SESSION_DRIVER=file
 export CACHE_STORE=file
 export QUEUE_CONNECTION=sync
 
+# Render requires the web process to bind to PORT (typically 10000).
+PORT_TO_USE="${PORT:-10000}"
+sed -ri "s/^Listen 80$/Listen ${PORT_TO_USE}/" /etc/apache2/ports.conf
+sed -ri "s/<VirtualHost \*:80>/<VirtualHost *:${PORT_TO_USE}>/" /etc/apache2/sites-available/000-default.conf
+
 # Build config cache, but do not crash boot if this step fails transiently.
 php artisan config:cache || true
 
